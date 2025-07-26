@@ -1,1 +1,35 @@
-<p>login workwdbqodbs!</p>
+<div>
+    <form [formGroup]="form" (ngSubmit)="onSubmit()" >
+        <div>
+            <label for="username">Username:</label>
+            <input 
+                id="username"
+                type="text" 
+                formControlName="username"
+                [class.invalid]="username?.invalid && (username?.touched || username?.dirty)"
+            />
+            <div class="error" *ngIf="username?.errors && (username?.touched || username?.dirty)">
+                <small *ngIf="username?.errors?.['required']">L'username è obbligatorio.</small>
+                <small *ngIf="username?.errors?.['username']">Inserisci un username valido.</small>
+            </div>
+        </div>
+        <div>
+            <label for="password">Password:</label>
+            <input 
+                id="password" 
+                type="password" 
+                formControlName="password"
+                [class.invalid]="username?.invalid && (username?.touched || username?.dirty)"
+            />
+            <div class="error" *ngIf="password?.errors && (password?.touched || password?.dirty)">
+                <small *ngIf="password?.errors?.['required']">La password è obbligatoria.</small>
+                <small *ngIf="password?.errors?.['minlength']">
+                    La password deve contenere almeno {{ password?.errors?.['minlength'].requiredLength }} caratteri.
+                </small>
+            </div>
+        </div>
+
+        <button type="submit" [disabled]="form.invalid">Login</button>
+ 
+    </form>
+</div>
