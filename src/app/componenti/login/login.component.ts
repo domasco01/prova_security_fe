@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common'; 
-import { LoginService } from '../../servizi/login.service';
+import { AuthService } from '../../servizi/auth.service';
 
 @Component({
   selector: 'app-login',
@@ -13,7 +13,7 @@ export class LoginComponent {
   form : FormGroup = new FormGroup({});
 
   constructor(
-    private loginService : LoginService
+    private authService : AuthService
   ) {
     this.createForm();
   }
@@ -35,15 +35,14 @@ export class LoginComponent {
 
   onSubmit() {
     if (this.form.valid) {
-      this.loginService.eseguiLogin(this.form.value).subscribe({
+      this.authService.eseguiLogin(this.form.value).subscribe({
         next: (response) => {
           localStorage.setItem('token', response.tokenType + ' ' + response.accessToken);
           console.log('Login effettuato con successo')
         },
         error: (err) => {
         console.error('Errore nel login:', err);
-        console.log(this.form.value)
-        // mostra messaggio all'utente
+        
       } 
       })
     }  
